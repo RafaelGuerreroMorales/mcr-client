@@ -19,7 +19,7 @@ public class ClientMapperTest {
 
     @Test
     void dtoToEntityTest(){
-        var dto = new ClientDto(0,"Rafael","Alonso", "Guerrero", "Morales", "1994/06/13");
+        var dto = new ClientDto(0,"Rafael","Alonso", "Guerrero", "Morales", "1994/06/13",null);
         var entity = clientMapper.toEntity(dto);
 
         assertEquals("Rafael",entity.getFirstname());
@@ -28,7 +28,7 @@ public class ClientMapperTest {
         assertEquals("Morales",entity.getSecondLastName());
         assertEquals(LocalDate.of(1994, 06, 13),entity.getDateOfBirth());
 
-        dto = new ClientDto(0,"Rafael",null , "Guerrero", null, null);
+        dto = new ClientDto(0,"Rafael",null , "Guerrero", null, null,null);
         entity = clientMapper.toEntity(dto);
         
         assertEquals("Rafael",entity.getFirstname());

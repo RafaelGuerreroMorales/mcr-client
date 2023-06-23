@@ -6,17 +6,21 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 import micro.spv.clientes.dtos.ClientDto;
+import micro.spv.clientes.dtos.PhoneDto;
 import micro.spv.clientes.entities.ClientEntity;
+import micro.spv.clientes.entities.PhoneEntity;
 
 @Component
 public class ClientMapper {
     static final String REGEX_LETTERS = "^[a-zA-Z].*[A-z]$";
     static final String REGEX_DATE = "^[\\d]{4}.[\\d]{2}.[\\d]{2}$";
+    static final String REGEX_PHONE_NUMBER = "[0-9]{10}";
+    static final String REGEX_NUMBERS_LETTERS = "[0-9 A-Za-z]*$";
 
     public ClientDto todDto(ClientEntity entity){
         return new ClientDto(entity.getIdentityclient(), entity.getFirstname(),
             entity.getSecondName(), entity.getFirstLastName(), entity.getSecondLastName(),
-            entity.getDateOfBirth().toString());
+            entity.getDateOfBirth().toString(), null);
     }
 
     public ClientEntity toEntity(ClientDto dto){
@@ -48,8 +52,8 @@ public class ClientMapper {
         if(!illegalString.equals(ilegalArgument))
             throw new IllegalArgumentException(illegalString);
         
-        return new ClientEntity(0,dto.getFirstName(), dto.getSecondName(), dto.getFirstLastName(),
-            dto.getSecondLastName(), this.getLocaDate(dto.getBirthDate()));
+        return new ClientEntity(dto.getIdClient(),dto.getFirstName().toUpperCase(), dto.getSecondName().toUpperCase(),
+            dto.getFirstLastName().toUpperCase(), dto.getSecondLastName().toUpperCase(), this.getLocaDate(dto.getBirthDate()));
     }
 
     private void replaceNullVariable(ClientDto dto){
@@ -69,5 +73,40 @@ public class ClientMapper {
                 Integer.parseInt(splitDate[2]));
         }
 
+    }
+
+    public PhoneDto toDto(PhoneEntity entity){
+        return new PhoneDto(entity.getIdentityPhone(), entity.getIdentityClient(),
+            entity.getPhoneNumber(), entity.getDescription());
+    }
+
+    public PhoneEntity toEntity(PhoneDto dto){
+        final String ilegalArgument = "IllegalArgument:";
+        var patter = Pattern.compile(REGEX_PHONE_NUMBER);
+
+        this.replaceNullVariable(dto);
+
+        if(dto.getIdClient() == 0)
+            throw new IllegalArgumentException(dto.getPhoneNumber() == "" ?
+                 "PhoneDto.idClient == Null && PhoneDto.phoneNumber == Null" : "PhoneDto.idClient == Null");
+        else if(dto.getPhoneNumber() == "" )
+            throw new IllegalArgumentException("PhoneDto.idClient == Null");
+        
+        String illegaString = ilegalArgument;
+        illegaString += patter.matcher(dto.getPhoneNumber()).matches() ? "":
+             "PhoneDto.phoneNumer = " + dto.getPhoneNumber();
+        illegaString += dto.getDescription().equals("") ? "" :
+            "PhoneDto.description" + dto.getDescription();
+        
+        if(!illegaString.equals(ilegalArgument))
+            throw new IllegalArgumentException(illegaString);
+
+        return new PhoneEntity(dto.getIdPhone(), dto.getIdClient(), dto.getPhoneNumber(),
+            dto.getDescription().toUpperCase());
+    }   
+
+    private void replaceNullVariable(PhoneDto dto){
+        dto.setPhoneNumber(dto.getPhoneNumber() == null ? "": dto.getPhoneNumber());
+        dto.setDescription(dto.getDescription() == null ? "": dto.getDescription());
     }
 }

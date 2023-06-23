@@ -1,6 +1,7 @@
 package micro.spv.clientes.dtos;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class ClientDto implements Serializable {
     String firstLastName;
     String secondLastName;
     String birthDate;
+    List<PhoneDto> phones;
 }

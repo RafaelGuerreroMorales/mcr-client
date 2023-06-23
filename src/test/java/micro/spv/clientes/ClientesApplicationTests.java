@@ -1,7 +1,5 @@
 package micro.spv.clientes;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,12 +15,12 @@ class ClientesApplicationTests {
 	@Autowired
 	ClientService clientService;
 	
-	// @Test
-	// @Transactional
-	// void saveClientTest(){
-	// 	var guardo = clientService.saveClient();
-	// 	assertEquals(true, guardo);
-	// }
+	@Test
+	@Transactional
+	void saveClientTest(){
+		// var guardo = clientService.saveClient();
+		// assertEquals(true, guardo);
+	}
 
 	
 
