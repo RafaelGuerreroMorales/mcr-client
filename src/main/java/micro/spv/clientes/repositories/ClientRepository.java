@@ -34,7 +34,7 @@ public class ClientRepository {
         predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(rootQuery.get("firstLastName"), "%" + firstLastName + "%"));
         predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(rootQuery.get("secondLastName"), "%" + secondLastName + "%"));
         
-        criteriaQuery.where(predicate);
+        criteriaQuery.where(predicate).orderBy(criteriaBuilder.asc(rootQuery.get("identityclient")));
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 

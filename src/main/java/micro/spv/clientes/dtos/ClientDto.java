@@ -3,7 +3,7 @@ package micro.spv.clientes.dtos;
 import java.io.Serializable;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
+import lombok.AllArgsConstructor; 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
